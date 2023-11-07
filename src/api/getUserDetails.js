@@ -46,3 +46,7 @@ export function getUserRoleID() {
   const userDetails = parseUserDetails();
   return userDetails?.roleId || null;
 }
+export function getUserRefreshToken() {
+  const userDetails = parseUserDetails();
+  return userDetails?.refresh_token || null;
+}

@@ -9,3 +9,16 @@ export const CREATE_ORGANIZATION = "admin/company";
 export const COMPANY_LIST = "/admin/company/list";
 export const COUNTRIES = "data/get_countries";
 export const STATES_BY_COUNTRY_ID = "data/get_states_by_country";
+
+export const TOTAL_EARNINGS = "admin/dashboard/total_earnings";
+export const TODAY_EARNINGS = "admin/dashboard/today_earnings";
+export const TOTAL_RIDERS = "admin/dashboard/total_riders";
+export const TOTAL_TRIPS = "admin/dashboard/total_trips";
+export const TOTAL_DRIVERS = "admin/dashboard/total_drivers";
+export const TODAY_RIDERS = "admin/dashboard/today_riders";
+export const TODAY_TRIPS = "admin/dashboard/today_trips";
+export const TODAY_DRIVERS = "admin/dashboard/today_drivers";
+export const SMS_BALANCE = "admin/dashboard/sms_balance";
+export const RECENT_TRIPS = "admin/dashboard/recent_trips";
+export const SALES_GRAPH = "admin/dashboard/sales_graph";
+export const REFRESH_TOKEN = "admin/user/refresh_token";

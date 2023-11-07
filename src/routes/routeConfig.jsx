@@ -7,21 +7,48 @@ import {
   CREATE_ORGANIZATION_FORM,
   COMPANY_LIST,
 } from "./constant";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+
+const MAX_IDLE_TIME = 60 * 60 * 1000; // 1 hour in milliseconds
 
 const ProtectedWrapper = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
-  const hasShownToast = useRef(false); // Using ref to track if toast has been shown
+  const hasShownToast = useRef(false);
+  const [lastActivityTime, setLastActivityTime] = useState(Date.now());
 
   useEffect(() => {
-    if (!token && !hasShownToast.current) {
-      toast.error("Please login first!");
-      hasShownToast.current = true; // Mark that the toast has been shown
-      navigate(LOGIN_PAGE);
-    }
-  }, [navigate, token]);
+    const updateActivityTime = () => {
+      setLastActivityTime(Date.now());
+    };
+
+    document.addEventListener("mousemove", updateActivityTime);
+    document.addEventListener("keydown", updateActivityTime);
+
+    const timeoutId = setTimeout(() => {
+      // Calculate the time elapsed since the last user activity.
+      const elapsedTime = Date.now() - lastActivityTime;
+
+      if (!token && !hasShownToast.current) {
+        toast.error("Please login first!");
+        hasShownToast.current = true;
+        navigate(LOGIN_PAGE);
+      } else if (elapsedTime >= MAX_IDLE_TIME) {
+        localStorage.removeItem("accessToken");
+        toast.error("You were inactive for 1 hour, pls login again!");
+        hasShownToast.current = true;
+        navigate(LOGIN_PAGE);
+      }
+
+      return () => {
+        // Clean up event listeners when the component unmounts.
+        document.removeEventListener("mousemove", updateActivityTime);
+        document.removeEventListener("keydown", updateActivityTime);
+        clearTimeout(timeoutId);
+      };
+    }, MAX_IDLE_TIME);
+  }, [navigate, token, lastActivityTime]);
 
   return <Outlet />;
 };

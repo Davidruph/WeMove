@@ -11,6 +11,7 @@ import { useCompanyService } from "../../../services/company";
 import { CREATE_ORGANIZATION_FORM } from "../../../routes/constant";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
+import { ClipLoader } from "react-spinners";
 
 function CompanyTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,9 +94,13 @@ function CompanyTable() {
 
             <div>
               {isLoading ? (
-                <div className="text-center">Loading...</div>
+                <div className="text-center text-dark pt-3 pb-3">
+                  Loading Records...
+                </div>
               ) : error ? (
-                <div className="text-center">Error: {error.message}</div>
+                <div className="text-center text-dark pt-3 pb-3">
+                  Error: {error.message}
+                </div>
               ) : (
                 <div className="table-responsive">
                   <Table striped bordered hover>
