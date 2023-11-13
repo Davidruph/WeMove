@@ -3,6 +3,8 @@ import {
   CREATE_ORGANIZATION_FORM,
   DASHBOARD,
   COMPANY_LIST,
+  NEW_ADMIN_FORM,
+  ADMIN_LIST,
 } from "../../../../routes/constant";
 import { useEffect } from "react";
 import {
@@ -68,6 +70,34 @@ function Sidebar() {
       <hr className="sidebar-divider" />
 
       <div className="sidebar-heading">Navigations</div>
+      <li className="nav-item">
+        <a
+          className="nav-link collapsed"
+          href="#"
+          data-toggle="collapse"
+          data-target="#Admin"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <i className="fas fa-fw fa-user-cog"></i>
+          <span>Manage Admin</span>
+        </a>
+        <div
+          id="Admin"
+          className="collapse"
+          aria-labelledby="Admin"
+          data-parent="#accordionSidebar"
+        >
+          <div className="bg-white py-2 collapse-inner rounded">
+            <Link className="collapse-item" to={NEW_ADMIN_FORM}>
+              New Admin
+            </Link>
+            <Link className="collapse-item" to={ADMIN_LIST}>
+              View all Admin
+            </Link>
+          </div>
+        </div>
+      </li>
 
       <li className="nav-item">
         <a

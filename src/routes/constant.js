@@ -9,7 +9,13 @@ export const CREATE_ORGANIZATION = "admin/company";
 export const COMPANY_LIST = "/admin/company/list";
 export const COUNTRIES = "data/get_countries";
 export const STATES_BY_COUNTRY_ID = "data/get_states_by_country";
+export const NEW_ADMIN_FORM = "/create/admin";
+export const ADMIN_LIST = "/admin/user/list";
+export const NEW_ADMIN = "admin/user";
+export const PROFILE_PAGE = "/admin/profile";
+export const SETTINGS_PAGE = "/admin/settings";
 
+//dashboard cards
 export const TOTAL_EARNINGS = "admin/dashboard/total_earnings";
 export const TODAY_EARNINGS = "admin/dashboard/today_earnings";
 export const TOTAL_RIDERS = "admin/dashboard/total_riders";

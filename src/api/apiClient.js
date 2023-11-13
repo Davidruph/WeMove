@@ -14,18 +14,20 @@ async function refreshAccessToken() {
     if (!refreshToken) {
       throw new Error("No refresh token found");
     }
+    const token = getAccessToken();
 
-    const response = await fetch(REFRESH_TOKEN, {
+    const response = await fetch(`${BASE_URL}${REFRESH_TOKEN}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${refreshToken}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ refreshToken }),
     });
 
     if (!response.ok) {
-      throw new Error("Access token refresh failed");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Access token refresh failed");
     }
 
     const data = await response.json();
@@ -40,7 +42,14 @@ async function refreshAccessToken() {
   }
 }
 
-async function request(endpoint, method = "GET", data, includeToken = true) {
+const MAX_RETRY_ATTEMPTS = 3;
+async function request(
+  endpoint,
+  method = "GET",
+  data,
+  includeToken = true,
+  retryCount = 0
+) {
   try {
     const token = getAccessToken();
     const headers = getHeaders(includeToken, token);
@@ -55,9 +64,13 @@ async function request(endpoint, method = "GET", data, includeToken = true) {
 
     if (response.status === 401 && includeToken) {
       // Access token is invalid, attempt to refresh it
-      await refreshAccessToken();
-      // Retry the request with the new access token
-      return request(endpoint, method, data, includeToken);
+      if (retryCount < MAX_RETRY_ATTEMPTS) {
+        await refreshAccessToken();
+        // Retry the request with the new access token
+        return request(endpoint, method, data, includeToken, retryCount + 1);
+      } else {
+        throw new Error("Max retry attempts reached");
+      }
     }
 
     if (!response.ok) {

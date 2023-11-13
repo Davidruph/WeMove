@@ -11,7 +11,6 @@ import { useCompanyService } from "../../../services/company";
 import { CREATE_ORGANIZATION_FORM } from "../../../routes/constant";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { ClipLoader } from "react-spinners";
 
 function CompanyTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +28,8 @@ function CompanyTable() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this record?")) {
       try {
-        await companyService.deleteOrganization(id);
-        toast.success("Operation successful");
+        companyService.deleteOrganization(id);
+        toast.success("Company data deleted successfully");
         queryClient.invalidateQueries("fetchOrganization");
       } catch (error) {
         toast.error(error.message);
@@ -44,9 +43,8 @@ function CompanyTable() {
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
     try {
-      await companyService.updateOrganization(values);
+      companyService.updateOrganization(values);
       toast.success("Update successful");
       queryClient.invalidateQueries("fetchOrganization");
     } catch (error) {
@@ -266,7 +264,7 @@ function CompanyTable() {
                           </div>
                         </div>
                         <div className="row mb-3">
-                          <div className="col">
+                          {/* <div className="col">
                             <label htmlFor="floatingInput">Country</label>
                             <Field
                               name="countryId"
@@ -283,7 +281,7 @@ function CompanyTable() {
                               type="number"
                               className="form-control"
                             />
-                          </div>
+                          </div> */}
                           <div className="col">
                             <label htmlFor="floatingInput">City</label>
                             <Field

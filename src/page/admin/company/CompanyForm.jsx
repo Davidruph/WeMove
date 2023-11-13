@@ -8,16 +8,40 @@ import { useCompanyService } from "../../../services/company";
 import { useCountryService } from "../../../services/country";
 import { useFetchStatesByCountry } from "../../../services/state";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function CompanyForm() {
   const { createOrganization, isCreateOrganizationLoading } =
     useCompanyService();
-  const { getCountryQuery } = useCountryService();
+
+  const { getCountryQuery, refetchCountry, isLoadingCountry } =
+    useCountryService();
   const [selectedCountry, setSelectedCountry] = useState("");
+  const {
+    refetchStates,
+    data: statesData,
+    isLoading: isStatesLoading,
+  } = useFetchStatesByCountry(selectedCountry);
+
+  const fetchCountry = () => {
+    refetchCountry();
+  };
+
+  const fetchStates = () => {
+    refetchStates();
+  };
+
+  useEffect(() => {
+    fetchCountry();
+  }, []);
+
+  useEffect(() => {
+    fetchStates();
+  }, [selectedCountry]);
 
   const onSubmit = async (values) => {
     try {
-      await createOrganization(values);
+      createOrganization(values);
     } catch (error) {
       toast.error(error.message);
     }
@@ -29,10 +53,7 @@ function CompanyForm() {
     setSelectedCountry(newCountry);
   };
 
-  const { data: statesData, isLoading } =
-    useFetchStatesByCountry(selectedCountry);
-
-  const states = isLoading ? [] : statesData || [];
+  const states = isStatesLoading ? [] : statesData || [];
 
   const allFieldsFilled = (values) => {
     const requiredFields = [
@@ -42,7 +63,6 @@ function CompanyForm() {
       "phone_number",
       "password",
       "confirm_password",
-      "company_photo",
     ];
     return requiredFields.every((field) => !!values[field]);
   };
@@ -68,7 +88,19 @@ function CompanyForm() {
                 <div className="card pt-4">
                   <div className="p-4">
                     <Form
-                      onSubmit={onSubmit}
+                      onSubmit={async (values, form) => {
+                        const formData = {
+                          ...values,
+                          countryId: selectedCountry,
+                        };
+
+                        try {
+                          await onSubmit(formData);
+                          form.reset();
+                        } catch (error) {
+                          console.error("Submission error:", error);
+                        }
+                      }}
                       render={({ handleSubmit, submitting, values }) => (
                         <form onSubmit={handleSubmit}>
                           <div className="row mb-3">
@@ -118,20 +150,27 @@ function CompanyForm() {
                               <label htmlFor="floatingInput">Country</label>
                               <Field
                                 name="countryId"
-                                component="select"
-                                className="form-control"
-                                value={selectedCountry}
-                                onChange={(e) =>
-                                  handleCountryChange(e.target.value)
-                                }
-                              >
-                                <option value="">Select a country</option>
-                                {countries?.map((country) => (
-                                  <option key={country.id} value={country.id}>
-                                    {country.name}
-                                  </option>
-                                ))}
-                              </Field>
+                                component={({ input }) => (
+                                  <select
+                                    {...input}
+                                    className="form-control"
+                                    value={selectedCountry}
+                                    onChange={(e) =>
+                                      handleCountryChange(e.target.value)
+                                    }
+                                  >
+                                    <option value="">Select a country</option>
+                                    {countries?.map((country) => (
+                                      <option
+                                        key={country.id}
+                                        value={country.id}
+                                      >
+                                        {country.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                )}
+                              />
                             </div>
                             <div className="col">
                               <label htmlFor="floatingInput">State</label>
@@ -213,7 +252,7 @@ function CompanyForm() {
                           <div className="row mb-5">
                             <div className="col">
                               <label htmlFor="floatingInput">
-                                Company Photo *
+                                Company Photo
                               </label>
                               <Field name="company_photo">
                                 {({ input }) => (

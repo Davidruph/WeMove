@@ -1,5 +1,7 @@
 import { profileImg } from "../../../../assets";
 import { getUserName } from "../../../../api/getUserDetails";
+import { Link } from "react-router-dom";
+import { PROFILE_PAGE, SETTINGS_PAGE } from "../../../../routes/constant";
 
 function TopNav() {
   const userName = getUserName();
@@ -34,18 +36,18 @@ function TopNav() {
             className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
             aria-labelledby="userDropdown"
           >
-            <a className="dropdown-item" href="#">
+            <Link className="dropdown-item" to={PROFILE_PAGE}>
               <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
               Profile
-            </a>
-            <a className="dropdown-item" href="#">
+            </Link>
+            <Link className="dropdown-item" to={SETTINGS_PAGE}>
               <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
-            </a>
-            <a className="dropdown-item" href="#">
+            </Link>
+            <Link className="dropdown-item" href="#">
               <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
               Activity Log
-            </a>
+            </Link>
             <div className="dropdown-divider"></div>
             <a
               className="dropdown-item"
