@@ -1,16 +1,15 @@
 import { toast } from "react-toastify";
-import { LOGIN_PAGE } from "../../../../routes/constant";
+import { LOGIN_PAGE, LOGIN } from "../../../../routes/constant";
 import { useQueryClient } from "react-query";
 
 function LogoutModal() {
   const queryClient = useQueryClient();
-
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user_details");
     toast.success("Logged out successfully!");
     queryClient.clear();
-    window.location.href = LOGIN_PAGE;
+    window.location.href = LOGIN;
   };
   return (
     <>
