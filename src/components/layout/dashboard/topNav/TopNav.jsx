@@ -1,4 +1,4 @@
-import { profileImg } from "../../../../assets";
+import { profileImg, avatar } from "../../../../assets";
 import { getUserName } from "../../../../api/getUserDetails";
 import { Link } from "react-router-dom";
 import { PROFILE_PAGE, SETTINGS_PAGE } from "../../../../routes/constant";
@@ -30,7 +30,10 @@ function TopNav() {
             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
               {userName}
             </span>
-            <img className="img-profile rounded-circle" src={profileImg} />
+            <img
+              className="img-profile rounded-circle"
+              src={profileImg || avatar}
+            />
           </a>
           <div
             className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
