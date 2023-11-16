@@ -30,10 +30,7 @@ function TopNav() {
             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
               {userName}
             </span>
-            <img
-              className="img-profile rounded-circle"
-              src={profileImg || avatar}
-            />
+            <img className="img-profile rounded-circle" src={avatar} />
           </a>
           <div
             className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
