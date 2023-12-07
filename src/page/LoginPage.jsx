@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Form, Field } from "react-final-form";
 import { useMutation } from "react-query";
 import { apiClient } from "../api/apiClient";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -63,8 +63,8 @@ const LoginPage = () => {
                     onSubmit={onSubmit}
                     render={({ handleSubmit, submitting, values }) => (
                       <form onSubmit={handleSubmit} autoComplete="off">
-                        <div className="form-floating mb-4">
-                          <label htmlFor="floatingInput">Email address</label>
+                        <div className="mb-4">
+                          <label htmlFor="">Email address</label>
                           <Field
                             name="email"
                             component="input"
@@ -75,7 +75,7 @@ const LoginPage = () => {
                             autoComplete="off"
                           />
                         </div>
-                        <div className="form-floating mb-4">
+                        <div className="mb-4">
                           <label htmlFor="floatingPassword">Password</label>
                           <Field
                             name="password"
@@ -87,9 +87,9 @@ const LoginPage = () => {
                             autoComplete="off"
                           />
                         </div>
-                        <a href="#" className="text-success pb-3 float-right">
+                        <Link to="#" className="text-success pb-3 float-right">
                           Forgot Password
-                        </a>
+                        </Link>
 
                         {mutation.isError && (
                           <p className="text-danger pb-2">

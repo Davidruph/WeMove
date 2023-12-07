@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { LOGIN_PAGE, LOGIN } from "../../../../routes/constant";
+import { LOGIN } from "../../../../routes/constant";
 import { useQueryClient } from "react-query";
 
 function LogoutModal() {

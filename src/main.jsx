@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

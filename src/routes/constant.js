@@ -1,5 +1,7 @@
-export const LOGIN = "/";
-export const LOGIN_PAGE = "/login";
+export const HOME = "/";
+export const ABOUT = "/about";
+export const FEATURES = "/features";
+export const LOGIN = "/login";
 export const ADMIN_LOGIN_ROUTE = "admin/user/login";
 export const RIDER_LOGIN_ROUTE = "rider/user";
 export const DRIVER_LOGIN_ROUTE = "driver/user/login";

@@ -11,17 +11,22 @@ import {
   CompanyTable,
   NewAdminForm,
   AdminTable,
+  HomePage,
+  AboutPage,
+  FeaturesPage,
 } from "../page";
 import {
-  LOGIN,
+  HOME,
   DASHBOARD,
-  LOGIN_PAGE,
+  LOGIN,
   CREATE_ORGANIZATION_FORM,
   COMPANY_LIST,
   NEW_ADMIN_FORM,
   ADMIN_LIST,
-  PROFILE_PAGE,
-  SETTINGS_PAGE,
+  // PROFILE_PAGE,
+  // SETTINGS_PAGE,
+  FEATURES,
+  ABOUT,
 } from "./constant";
 
 const MAX_IDLE_TIME = 60 * 60 * 1000; // 1 hour in milliseconds
@@ -35,7 +40,7 @@ const SessionTimeout = ({ navigate }) => {
     if (!token && !hasShownToast.current) {
       toast.error("Please log in first!");
       hasShownToast.current = true;
-      navigate(LOGIN_PAGE);
+      navigate(LOGIN);
     }
   }, [token, navigate]);
 
@@ -50,7 +55,7 @@ const SessionTimeout = ({ navigate }) => {
         localStorage.removeItem("accessToken");
         toast.error("You were inactive for 1 hour, please log in again.");
         hasShownToast.current = true;
-        navigate(LOGIN_PAGE);
+        navigate(LOGIN);
       }
     };
 
@@ -76,8 +81,10 @@ const RouterConfig = () => {
   return (
     <div>
       <Routes>
+        <Route path={HOME} element={<HomePage />} />
+        <Route path={ABOUT} element={<AboutPage />} />
+        <Route path={FEATURES} element={<FeaturesPage />} />
         <Route path={LOGIN} element={<LoginPage />} />
-        <Route path={LOGIN_PAGE} element={<LoginPage />} />
         <Route
           path={DASHBOARD}
           element={<SessionTimeout navigate={navigate} />}
